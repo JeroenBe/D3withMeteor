@@ -5,11 +5,12 @@
 import { FlowRouter } from 'meteor/kadira:flow-router'
 import { BlazeLayout } from 'meteor/kadira:blaze-layout'
 
-import '/imports/ui/main'
+import '/imports/ui/pages/home'
+import '/imports/ui/components/graph'
 
 FlowRouter.route('/', {
     name: 'home',
     action: function(params) {
-        BlazeLayout.render('main')
+        BlazeLayout.render('home', {content: "graph"})
     }
 })
