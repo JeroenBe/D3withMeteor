@@ -7,6 +7,13 @@ import {StreamOne} from '/imports/api/StreamOne/collection'
 
 var valueNames = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten']
 
+if(Meteor.isServer){
+    Meteor.startup(function(){
+        generateData.call()
+    })
+}
+
+
 export const generateData = {
     name: 'generateRandomDataStream',
     run (){

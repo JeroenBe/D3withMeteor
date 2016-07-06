@@ -16,19 +16,21 @@ Template.graph.onCreated(function(){
 
 Template.graph.onRendered(function(){
     this.autorun(function(){
-        const svg = d3.select("svg")
-        const data = StreamOne.find().fetch()
 
-        console.log(svg.selectAll("path"))
+    const svg = d3.select("svg")
+    const data = StreamOne.find().fetch()
+        console.log(svg.selectAll("path").attr("d"))
 
         data.unshift({value: 250})
         data.push({value: 250})
         const line = d3.line()
-            .x((d, i)=>{return 1000/data.length * i})
+            .x((d, i)=>{return 1000/(data.length-1) * i})
             .y((d)=>{return d.value})
             .curve(d3.curveBasis)
 
         svg.selectAll("path").transition().attr("d", line(data))
+        console.log(svg.selectAll("path").attr("d"))
+
     })
 })
 
