@@ -16,11 +16,10 @@ export const generateData = {
         if(Meteor.isServer){
             Meteor.setInterval(function () {
                 for (key of valueNames) {
-                    StreamOne.update(StreamOne.findOne({name: key})._id, {$set: {value: Math.random() * 100}})
+                    StreamOne.update(StreamOne.findOne({name: key})._id, {$set: {value: Math.random() * 500}})
                 }
-            }, Math.random() * 500)
+            }, 500)
         }
-
     },
     call(args, callback){
         const options = {

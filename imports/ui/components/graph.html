@@ -1,5 +1,7 @@
 <template name="graph">
-    <svg width="100%"></svg>
+    <svg  style="width: 100%" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1000 500">
+        <path d="M 0 250 L 1000 250" stroke-width="4" stroke="red" fill="none"></path>
+    </svg>
     <table>
         {{#each streamData}}
             <tr><td>{{name}}</td>{{value}}</tr>
