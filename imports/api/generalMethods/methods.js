@@ -5,7 +5,6 @@ import {Meteor} from 'meteor/meteor'
 
 import {StreamOne} from '/imports/api/StreamOne/collection'
 
-
 var valueNames = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten']
 
 export const generateData = {
@@ -32,26 +31,7 @@ export const generateData = {
     }
 }
 
-
-
-export const testMethod = {
-    name: 'test',
-    run (){
-        console.log('hello from method')
-    },
-    call(args, callback){
-        const options = {
-            returnStubValue: false,
-            throwStubExceptions: false
-        }
-        Meteor.apply(this.name, [args], options, callback)
-    }
-}
-
 Meteor.methods({
-    [testMethod.name]: function(args){
-        testMethod.run.call(args)
-    },
     [generateData.name]: function(args) {
         generateData.run.call(this, args)
     },
