@@ -11,11 +11,17 @@ var valueNames = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'
 export const generateData = {
     name: 'generateRandomDataStream',
     run (){
-        Meteor.setInterval(function () {
-            for (key of valueNames) {
-                StreamOne.update({name: key}, {value: Math.random() * 100})
-            }
-        }, Math.random() * 100)
+        if(StreamOne.find().fetch().length == 0){
+            Meteor.call('initializeData')
+        }
+        if(Meteor.isServer){
+            Meteor.setInterval(function () {
+                for (key of valueNames) {
+                    StreamOne.update(StreamOne.findOne({name: key})._id, {$set: {value: Math.random() * 100}})
+                }
+            }, Math.random() * 500)
+        }
+
     },
     call(args, callback){
         const options = {
@@ -26,11 +32,6 @@ export const generateData = {
     }
 }
 
-Meteor.methods({
-    [generateData.name]: function(args) {
-        generateData.run.call(this, args)
-    }
-})
 
 
 export const testMethod = {
@@ -40,8 +41,8 @@ export const testMethod = {
     },
     call(args, callback){
         const options = {
-            returnStubValue: true,
-            throwStubExceptions: true
+            returnStubValue: false,
+            throwStubExceptions: false
         }
         Meteor.apply(this.name, [args], options, callback)
     }
@@ -50,5 +51,13 @@ export const testMethod = {
 Meteor.methods({
     [testMethod.name]: function(args){
         testMethod.run.call(args)
+    },
+    [generateData.name]: function(args) {
+        generateData.run.call(this, args)
+    },
+    initializeData(){
+        for(key of valueNames){
+            StreamOne.insert({name: key, value: 0})
+        }
     }
 })

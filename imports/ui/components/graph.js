@@ -5,9 +5,16 @@ import './graph.html'
 import {StreamOne} from '/imports/api/StreamOne/collection'
 import {Meteor} from 'meteor/meteor'
 
-import {testMethod} from '/imports/api/generalMethods/methods'
+Data = StreamOne
+
+import {generateData} from '/imports/api/generalMethods/methods'
 
 Template.graph.onCreated(function(){
-    console.log('from graph')
-    testMethod.call()
+    generateData.call()
+})
+
+Template.graph.helpers({
+    streamData(){
+        return StreamOne.find()
+    }
 })

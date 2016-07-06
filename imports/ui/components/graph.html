@@ -1,5 +1,9 @@
 <template name="graph">
-        <svg width="100%">
+    <svg width="100%"></svg>
+    <table>
+        {{#each streamData}}
+            <tr><td>{{name}}</td>{{value}}</tr>
+        {{/each}}
+    </table>
 
-        </svg>
 </template>
