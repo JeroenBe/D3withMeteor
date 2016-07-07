@@ -1,6 +1,10 @@
 <template name="graph">
     <svg  style="width: 100%" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1000 500">
-        <path d="M 0 250 L 1000 250" stroke-width="4" stroke="red" fill="none"></path>
+        <path id="streamOne" d="M 0 250 L 1000 250" stroke-width="4" stroke="red" fill="none"></path>
+        <path id="streamTwo" d="M 0 250 L 1000 250" stroke-width="4" stroke="blue" fill="none"></path>
+        <path id="streamThree" d="M 0 250 L 1000 250" stroke-width="4" stroke="yellow" fill="none"></path>
+        <path id="streamFour" d="M 0 250 L 1000 250" stroke-width="4" stroke="green" fill="none"></path>
+        <path id="streamFive" d="M 0 250 L 1000 250" stroke-width="4" stroke="orange" fill="none"></path>
     </svg>
     <table>
         {{#each streamData}}
