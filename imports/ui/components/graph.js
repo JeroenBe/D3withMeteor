@@ -13,8 +13,6 @@ import {StreamFive} from '/imports/api/StreamFive/collection'
 
 Template.graph.onCreated(function(){
     this.lineGenerator = d3.line().x((d, i)=>{return 1000/(StreamOne.find().fetch().length+1) * i}).y((d,i)=>{return 250}).curve(d3.curveBasis)
-
-
 })
 
 Template.graph.onRendered(function(){
@@ -72,8 +70,8 @@ Template.graph.events({
     'click #polarGraph': function(event, template){
         event.preventDefault()
         template.lineGenerator = d3.line()
-            .x((d, i)=>{return 1000/(StreamOne.find().fetch().length+1) * i})
-            .y((d)=>{return d.value*0.5 + 125})
+            .x((d,i)=>{return (Math.cos((Math.PI * 2) * (i / StreamOne.find().fetch().length)) * (50 + d.value/2)) + 500})
+            .y((d,i)=>{return (Math.sin((Math.PI * 2) * (i / StreamOne.find().fetch().length)) * (50 + d.value/2)) + 250})
             .curve(d3.curveBasis)
     }
 })
