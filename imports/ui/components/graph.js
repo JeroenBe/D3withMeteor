@@ -58,6 +58,10 @@ Template.graph.onRendered(function(){
 })
 
 Template.graph.events({
+    'click #noGraph': function(event, template){
+        event.preventDefault()
+        template.lineGenerator = d3.line().x((d, i)=>{return 1000/(StreamOne.find().fetch().length+1) * i}).y((d,i)=>{return 250}).curve(d3.curveBasis)
+    },
     'click #lineGraph': function(event, template){
         event.preventDefault()
         template.lineGenerator = d3.line()
