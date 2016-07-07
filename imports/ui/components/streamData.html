@@ -1,0 +1,27 @@
+<template name="streamData">
+    <div class="panel panel-info">
+        <div class="panel-heading">Stream Values</div>
+        <div class="panel-body">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th> </th>
+                    {{#each names}}
+                        <th>{{this}}</th>
+                    {{/each}}
+                </tr>
+                </thead>
+                <tbody>
+                {{#each streams}}
+                    <tr>
+                        <td><strong>{{name}}</strong></td>
+                        {{#each values}}
+                            <td>{{value}}</td>
+                        {{/each}}
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</template>

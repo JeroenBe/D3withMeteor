@@ -9,7 +9,7 @@ import {StreamThree} from '/imports/api/StreamThree/collection'
 import {StreamFour} from '/imports/api/StreamFour/collection'
 import {StreamFive} from '/imports/api/StreamFive/collection'
 
-var valueNames = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten']
+export const valueNames = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten']
 
 if(Meteor.isServer){
     Meteor.startup(function(){
@@ -27,7 +27,7 @@ export const generateData = {
         if(Meteor.isServer){
             Meteor.setInterval(function () {
                 for (key of valueNames) {
-                    StreamOne.update(StreamOne.findOne({name: key})._id, {$set: {value: Math.random() * 500}})
+                    StreamOne.update(StreamOne.findOne({name: key})._id, {$set: {value: Math.floor(Math.random() * 500)}})
                 }
             }, 500)
         }
@@ -53,11 +53,11 @@ Meteor.methods({
         if(Meteor.isServer){
             Meteor.setInterval(function () {
                 for (key of valueNames) {
-                    StreamOne.update(StreamOne.findOne({name: key})._id, {$set: {value: Math.random() * 500}})
-                    StreamTwo.update(StreamTwo.findOne({name: key})._id, {$set: {value: Math.random() * 500}})
-                    StreamThree.update(StreamThree.findOne({name: key})._id, {$set: {value: Math.random() * 500}})
-                    StreamFour.update(StreamFour.findOne({name: key})._id, {$set: {value: Math.random() * 500}})
-                    StreamFive.update(StreamFive.findOne({name: key})._id, {$set: {value: Math.random() * 500}})
+                    StreamOne.update(StreamOne.findOne({name: key})._id, {$set: {value: Math.floor(Math.random() * 500)}})
+                    StreamTwo.update(StreamTwo.findOne({name: key})._id, {$set: {value: Math.floor(Math.random() * 500)}})
+                    StreamThree.update(StreamThree.findOne({name: key})._id, {$set: {value: Math.floor(Math.random() * 500)}})
+                    StreamFour.update(StreamFour.findOne({name: key})._id, {$set: {value: Math.floor(Math.random() * 500)}})
+                    StreamFive.update(StreamFive.findOne({name: key})._id, {$set: {value: Math.floor(Math.random() * 500)}})
                 }
             }, 500)
         }
