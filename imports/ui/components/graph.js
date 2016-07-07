@@ -11,9 +11,6 @@ import {StreamThree} from '/imports/api/StreamThree/collection'
 import {StreamFour} from '/imports/api/StreamFour/collection'
 import {StreamFive} from '/imports/api/StreamFive/collection'
 
-Data5 = StreamFive
-Data1 = StreamOne
-
 Template.graph.onRendered(function(){
     this.autorun(function(){
         //Get the svg container
@@ -55,10 +52,4 @@ Template.graph.onRendered(function(){
         svg.selectAll("#streamFour").transition().attr("d", line(dataFromStreamFour))
         svg.selectAll("#streamFive").transition().attr("d", line(dataFromStreamFive))
     })
-})
-
-Template.graph.helpers({
-    streamData(){
-        return StreamOne.find()
-    }
 })
