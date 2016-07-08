@@ -44,6 +44,7 @@ Template.graph.onRendered(function(){
 Template.graph.events({
     'click #noGraph': function(event, template){
         event.preventDefault()
+
         template.lineGenerator = d3.line()
             .x((d, i) => {
                 return (1000/(StreamOne.find().fetch().length-1)*i)
@@ -55,6 +56,7 @@ Template.graph.events({
     },
     'click #lineGraph': function(event, template){
         event.preventDefault()
+
         template.lineGenerator = d3.line()
             .x((d, i)=>{return 1000/(StreamOne.find().fetch().length+1) * i})
             .y((d)=>{return d.value})
@@ -69,6 +71,7 @@ Template.graph.events({
     },
     'click #polarGraph': function(event, template){
         event.preventDefault()
+
         template.lineGenerator = d3.line()
             .x((d,i)=>{return (Math.cos((Math.PI * 2) * (i / (StreamOne.find().fetch().length * 2))) * (50 + d.value/2)) + 500})
             .y((d,i)=>{return (Math.sin((Math.PI * 2) * (i / (StreamOne.find().fetch().length * 2))) * (50 + d.value/2)) + 250})
@@ -82,6 +85,22 @@ Template.graph.events({
             }
 
             return out
+        }
+    },
+
+    'click #XGraph': function(event, template){
+        event.preventDefault()
+
+        template.lineGenerator = d3.line()
+            .x((d) => {return d.value * 2})
+            .y((d, i) => {return 500 / (StreamOne.find().fetch().length+1) * i})
+            .curve(d3.curveBasis)
+
+        template.refineData = (d) => {
+            d.unshift({value: 0})
+            d.push({value:0})
+
+            return d
         }
     }
 })
