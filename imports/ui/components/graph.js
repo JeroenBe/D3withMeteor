@@ -12,7 +12,8 @@ import {StreamFour} from '/imports/api/StreamFour/collection'
 import {StreamFive} from '/imports/api/StreamFive/collection'
 
 Template.graph.onCreated(function(){
-    this.lineGenerator = d3.line().x((d, i)=>{return 1000/(StreamOne.find().fetch().length+1) * i}).y((d,i)=>{return 250}).curve(d3.curveBasis)
+    this.lineGenerator = d3.line().x((d, i)=>{return (1000/(StreamOne.find().fetch().length-1)*i)}).y((d,i)=>{return 250}).curve(d3.curveBasis)
+    this.refineData = (d) => {return d}
 })
 
 Template.graph.onRendered(function(){
@@ -24,27 +25,11 @@ Template.graph.onRendered(function(){
         const svg = d3.select("svg")
 
         //This would be the reactive datasource (reactive thanks to Meteor's autorun)
-        const dataFromStreamOne = StreamOne.find().fetch()
-        const dataFromStreamTwo = StreamTwo.find().fetch()
-        const dataFromStreamThree = StreamThree.find().fetch()
-        const dataFromStreamFour = StreamFour.find().fetch()
-        const dataFromStreamFive = StreamFive.find().fetch()
-
-        //Add 0-points to begin and end of graph
-        dataFromStreamOne.unshift({value: 250})
-        dataFromStreamOne.push({value: 250})
-
-        dataFromStreamTwo.unshift({value: 250})
-        dataFromStreamTwo.push({value: 250})
-
-        dataFromStreamThree.unshift({value: 250})
-        dataFromStreamThree.push({value: 250})
-
-        dataFromStreamFour.unshift({value: 250})
-        dataFromStreamFour.push({value: 250})
-
-        dataFromStreamFive.unshift({value: 250})
-        dataFromStreamFive.push({value: 250})
+        const dataFromStreamOne = self.refineData(StreamOne.find().fetch())
+        const dataFromStreamTwo = self.refineData(StreamTwo.find().fetch())
+        const dataFromStreamThree = self.refineData(StreamThree.find().fetch())
+        const dataFromStreamFour = self.refineData(StreamFour.find().fetch())
+        const dataFromStreamFive = self.refineData(StreamFive.find().fetch())
 
         //Update new path coordinates
         svg.selectAll("#streamOne").transition().attr("d", self.lineGenerator(dataFromStreamOne))
@@ -55,10 +40,18 @@ Template.graph.onRendered(function(){
     })
 })
 
+//TODO: The dataset needs to be altered according to a chosen algorithm, this should be incorporated as well!
 Template.graph.events({
     'click #noGraph': function(event, template){
         event.preventDefault()
-        template.lineGenerator = d3.line().x((d, i)=>{return 1000/(StreamOne.find().fetch().length+1) * i}).y((d,i)=>{return 250}).curve(d3.curveBasis)
+        template.lineGenerator = d3.line()
+            .x((d, i) => {
+                return (1000/(StreamOne.find().fetch().length-1)*i)
+            })
+            .y(()=>{return 250})
+            .curve(d3.curveBasis)
+
+        template.refineData = (d) => {return d}
     },
     'click #lineGraph': function(event, template){
         event.preventDefault()
@@ -66,12 +59,29 @@ Template.graph.events({
             .x((d, i)=>{return 1000/(StreamOne.find().fetch().length+1) * i})
             .y((d)=>{return d.value})
             .curve(d3.curveBasis)
+
+        template.refineData = (d) => {
+            d.unshift({value: 250})
+            d.push({value: 250})
+
+            return d
+        }
     },
     'click #polarGraph': function(event, template){
         event.preventDefault()
         template.lineGenerator = d3.line()
-            .x((d,i)=>{return (Math.cos((Math.PI * 2) * (i / StreamOne.find().fetch().length)) * (50 + d.value/2)) + 500})
-            .y((d,i)=>{return (Math.sin((Math.PI * 2) * (i / StreamOne.find().fetch().length)) * (50 + d.value/2)) + 250})
-            .curve(d3.curveBasis)
+            .x((d,i)=>{return (Math.cos((Math.PI * 2) * (i / (StreamOne.find().fetch().length * 2))) * (50 + d.value/2)) + 500})
+            .y((d,i)=>{return (Math.sin((Math.PI * 2) * (i / (StreamOne.find().fetch().length * 2))) * (50 + d.value/2)) + 250})
+            .curve(d3.curveBasisClosed)
+
+        template.refineData = (d) => {
+            const out = []
+            for (data of d){
+                out.push({value: 250})
+                out.push(data)
+            }
+
+            return out
+        }
     }
 })
