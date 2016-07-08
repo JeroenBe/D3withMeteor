@@ -98,7 +98,7 @@ Template.graph.events({
 
         template.refineData = (d) => {
             d.unshift({value: 0})
-            d.push({value:0})
+            d.push({value: 0})
 
             return d
         }
