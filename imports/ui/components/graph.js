@@ -17,7 +17,6 @@ Template.graph.onCreated(function(){
 })
 
 Template.graph.onRendered(function(){
-    console.log(this.lineGenerator)
     const self = this
 
     this.autorun(function(){
