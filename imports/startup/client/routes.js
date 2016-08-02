@@ -10,14 +10,14 @@ import '/imports/ui/components/graph'
 import '/imports/ui/layouts/test'
 
 
-FlowRouter.route('/', {
+FlowRouter.route('/demo', {
     name: 'graph',
     action: function(params) {
         BlazeLayout.render('home', {content: "graph"})
     }
 })
 
-FlowRouter.route('/test', {
+FlowRouter.route('/', {
     name: 'test',
     action: function(params) {
         BlazeLayout.render('test')
